@@ -1,52 +1,62 @@
-from preference_agent import PreferenceAgent
-from restaurant_agent import RestaurantSearchAgent
-from review_agent import ReviewAgent
+from agents.preference_agent import PreferenceAgent
+from agents.restaurant_agent import RestaurantSearchAgent
+from agents.review_agent import ReviewAgent
+from agents.planner_agent import PlannerAgent
 
 
 class RouterAgent:
 
     def __init__(self):
+
         self.preference_agent = PreferenceAgent()
         self.restaurant_agent = RestaurantSearchAgent()
         self.review_agent = ReviewAgent()
+        self.planner_agent = PlannerAgent()
+
 
     def run(self, user_input):
 
-        # Step 1: Extract user preferences from natural language
+        # 1. Extract preferences
         preferences = self.preference_agent.extract_preferences(user_input)
 
         print("\nExtracted Preferences:")
         print(preferences)
 
-        # Check whether required preferences were found
-        if not preferences["food"] or not preferences["location"]:
-            print("\nCould not understand your request completely.")
-            return []
 
-        # Step 2: Search restaurants
+        # 2. Retrieve restaurants using RAG
         restaurants = self.restaurant_agent.search(preferences)
 
-        # Step 3: Summarize search results
+
+        # 3. Generate AI summaries
         summaries = self.review_agent.summarize(restaurants)
 
-        return summaries
+
+        # 4. Create dining plan
+        final_plan = self.planner_agent.create_plan(
+            preferences,
+            summaries
+        )
+
+
+        return final_plan
+
 
 
 if __name__ == "__main__":
 
     router = RouterAgent()
 
-    # Natural language input
-    user_input = input("Enter your request: ")
 
-    results = router.run(user_input)
+    user_input = input(
+        "\nEnter your request: "
+    )
 
-    if results:
-        print("\nRestaurant Recommendations\n")
 
-        for i, result in enumerate(results, start=1):
-            print("=" * 60)
-            print(f"Recommendation {i}")
-            print("=" * 60)
-            print(result)
-            print()
+    result = router.run(user_input)
+
+
+    print("\n==============================")
+    print("AI Restaurant Dining Plan")
+    print("==============================\n")
+
+    print(result)
