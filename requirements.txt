@@ -2,9 +2,10 @@ streamlit
 langchain
 langchain-community
 langchain-chroma
+langchain-huggingface
 chromadb
 pypdf
 sentence-transformers
 python-dotenv
-groq
+groqpip 
 openai
