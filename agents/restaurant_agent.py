@@ -16,13 +16,15 @@ class RestaurantSearchAgent:
         )
 
         self.retriever = self.vector_store.as_retriever(
-            search_kwargs={"k":5}
+            search_kwargs={"k": 5}
         )
+
 
     def search(self, preferences):
 
         query = f"""
-        Recommend restaurants for
+        Recommend restaurants for:
+
         Food: {preferences['food']}
         Budget: {preferences['budget']}
         Location: {preferences['location']}
@@ -32,16 +34,27 @@ class RestaurantSearchAgent:
 
         return results
 
+
+
 if __name__ == "__main__":
 
-        agent = RestaurantSearchAgent()
+    agent = RestaurantSearchAgent()
 
-        preferences = {
-         "food": "Seafood",
-         "budget": 6000,
-         "location": "Galle"
+    preferences = {
+        "food": "Seafood",
+        "budget": 6000,
+        "location": "Galle"
     }
 
-        results = agent.search(preferences)
+    results = agent.search(preferences)
 
-        print(results)
+    print(f"\nFound {len(results)} restaurants:\n")
+
+    for i, doc in enumerate(results, start=1):
+
+        print("=" * 60)
+        print(f"Restaurant Recommendation {i}")
+        print("=" * 60)
+
+        print(doc.page_content[:500])
+        print()
