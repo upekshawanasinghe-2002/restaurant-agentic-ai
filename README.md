@@ -212,7 +212,9 @@ python -m streamlit run streamlit_app/app.py
 | Sentence Transformers       |    Embedding Model                  | Converts restaurant documents into vector embeddings |
 | LangChain                   |    AI Orchestration                 | Connects agents, retrieval, and LLM workflow         |
 
+# Live Demo
 
+https://restaurant-agentic-ai-49y2ozuwaehmzp9brnn8s4.streamlit.app/
 
 
 
